@@ -25,8 +25,40 @@ def colorize(string, color):
 	return colors[color] + string + '\033[0m'
 
 # Creates a new recipe when called
-# TODO: add functionality
 def new_recipe():
+	name = raw_input("Enter recipe name: ")
+	filename = name + ".txt"
+
+	recipe = open(filename, "w")
+
+	# Create a list of ingredients and write them to file
+	ingredients = []
+
+	while True:
+		ingredient = raw_input("Enter ingredient(s) (done to quit): ")
+
+		if ingredient.lower() == "done":
+			break
+		else:
+			ingredients.append(ingredient)
+			ingredients.append("\n")
+
+	recipe.writelines(ingredients)
+
+	# Create a list of coooking steps and write them to file
+	steps = []
+
+	while True:
+		step = raw_input("Enter cooking step(s) (done to quit): ")
+		
+		if step.lower() == "done":
+			break
+		else:
+			steps.append(step)
+			steps.append("\n")
+
+	recipe.writelines(steps)
+
 	print "New recipe added!"
 	raw_input("Press [Enter] to continue...")
 
