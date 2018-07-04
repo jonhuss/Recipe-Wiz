@@ -1,6 +1,6 @@
 #!/usr/bin/env python2.7
 # A CLI app for storing recipes
-import os, sys
+import os, sys, glob
 
 header = "\
   _____           _             __          ___     \n\
@@ -26,6 +26,7 @@ def colorize(string, color):
 
 # Creates a new recipe when called
 def new_recipe():
+	# Open file named by user
 	name = raw_input("Enter recipe name: ")
 	filename = name + ".txt"
 
@@ -59,13 +60,35 @@ def new_recipe():
 
 	recipe.writelines(steps)
 
+	# Close out file and return to main menu
 	print "New recipe added!"
+	recipe.close()
 	raw_input("Press [Enter] to continue...")
 
 # Shows existing recipes
-# TODO: add functionality
 def list_recipes():
-	print "Recipe 1"
+	# working_directory = os.getcwd()
+
+	# Display all txt files (recipes) in the directory 
+	for file in glob.glob("*.txt"):
+		print file
+
+	# Open file selected by user
+	recipe = raw_input("Select recipe to view: ")
+	filename = recipe + ".txt"
+
+	recipe_file = open(filename, "r")
+
+	# Print selected recipe
+	print "\n"
+
+	for line in recipe_file:
+		print line
+
+	print "\n"
+
+	# Close out file and return to main menu
+	recipe_file.close()
 	raw_input("Press [Enter] to continue...")
 
 # Deletes recipe(s)
@@ -91,7 +114,7 @@ def main():
 
 		# Print ASCII art
 		print colorize(header, 'pink')
-		print colorize('version 0.1\n', 'green')
+		print colorize('version 0.2\n', 'green')
 		# Iterate over menu array and print index and menu text
 		for item in menu_items:
 			print colorize("[" + str(menu_items.index(item)) + "]", 'blue') + item.keys()[0]
