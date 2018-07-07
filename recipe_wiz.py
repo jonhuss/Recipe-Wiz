@@ -92,7 +92,23 @@ def list_recipes():
 # Deletes recipe(s)
 # TODO: add functionality
 def delete_recipe():
-	print "Recipe deleted!"
+	# Display all txt files (recipes) in the directory
+	for file in glob.glob("*.txt"):
+		print file
+
+	# Let user select file to delete
+	file = raw_input("Select a recipe to delete: ")
+	file_to_delete = file + ".txt"
+
+	# Confirm user wants to delete
+	prompt = raw_input("Are you sure you want to delete " + file_to_delete + "? (y/n)")
+
+	if prompt.lower() == "y":
+		os.remove(file_to_delete)
+		print "Recipe deleted!"
+	elif prompt.lower() == "n":
+		print "Exiting safely."
+
 	raw_input("Press [Enter] to continue...")
 
 # Exit program
@@ -112,7 +128,8 @@ def main():
 
 		# Print ASCII art
 		print colorize(header, 'pink')
-		print colorize('version 0.2\n', 'green')
+		print colorize('version 1.0\n', 'green')
+
 		# Iterate over menu array and print index and menu text
 		for item in menu_items:
 			print colorize("[" + str(menu_items.index(item)) + "]", 'blue') + item.keys()[0]
