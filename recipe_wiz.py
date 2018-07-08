@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python27
 # A CLI app for storing recipes
 import os, sys, glob
 
@@ -71,26 +71,30 @@ def list_recipes():
 	for file in glob.glob("*.txt"):
 		print file
 
-	# Open recipe selected by user
+	# Attempt to open recipe selected by user
 	recipe = raw_input("Select recipe to view: ")
 	filename = recipe + ".txt"
 
-	recipe_file = open(filename, "r")
+	try:
+		recipe_file = open(filename, "r")
 
-	# Print contents of selected recipe
-	print '\n'
+		# Print contents of selected recipe
+		print '\n'
 
-	for line in recipe_file:
-		print line
+		for line in recipe_file:
+			print line
 
-	print '\n'
+		print '\n'
 
-	# Close out file and return to main menu
-	recipe_file.close()
+		# Close out file 
+		recipe_file.close()
+	except IOError:
+		print "Error: could not open specified file."
+
+	# Return to main menu
 	raw_input("Press [Enter] to continue...")
 
 # Deletes recipe(s)
-# TODO: add functionality
 def delete_recipe():
 	# Display all txt files (recipes) in the directory
 	for file in glob.glob("*.txt"):
@@ -101,11 +105,16 @@ def delete_recipe():
 	file_to_delete = file + ".txt"
 
 	# Confirm user wants to delete
-	prompt = raw_input("Are you sure you want to delete " + file_to_delete + "? (y/n)")
+	prompt = raw_input(
+		"Are you sure you want to delete " + file_to_delete + "? (y/n)")
 
 	if prompt.lower() == "y":
-		os.remove(file_to_delete)
-		print "Recipe deleted!"
+		# Attempt to delete file
+		try:
+			os.remove(file_to_delete)
+			print "Recipe deleted!"
+		except WindowsError:
+			print "Error: could not delete specified file."
 	elif prompt.lower() == "n":
 		print "Exiting safely."
 
