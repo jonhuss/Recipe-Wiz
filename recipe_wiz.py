@@ -106,7 +106,7 @@ def delete_recipe():
 
 	# Confirm user wants to delete
 	prompt = raw_input(
-		"Are you sure you want to delete " + file_to_delete + "? (y/n)")
+		"Are you sure you want to delete " + file_to_delete + "? (y/n) ")
 
 	if prompt.lower() == "y":
 		# Attempt to delete file
